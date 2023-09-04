@@ -1,8 +1,6 @@
-package main;
+package colecciones.lista;
 
-import colecciones.lista;
-
-public class MainLista(){
-  public static void main(Strings[] args){
+public class MainLista{
+  public static void main(String[] args){
   }
 }
