@@ -50,7 +50,7 @@ public class ListaSobreArreglo<T> implements Lista<T>{
 	* Agrega un elemento en una posicion particular de la lista.
 	* @param elem el elemento a agregar
 	* @param indice el indice donde se agrega el elemento
-  * @return {@code true} sii el elemento pudo ser agregado
+  	* @return {@code true} sii el elemento pudo ser agregado
 	* @throws IndexOutOfBoundsException si {@code indice} &lt; {@code 0}
 	*/
   
@@ -186,9 +186,9 @@ public class ListaSobreArreglo<T> implements Lista<T>{
       }
       return true;  
     }
-  
+  //el repOk verifica que los elementos almacenados en esta estructura cumplan con alguna propiedad solicitada
   public boolean repOK(){
-    return true;
+    	return true;
   }
  
   /**
