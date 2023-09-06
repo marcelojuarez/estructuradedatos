@@ -64,7 +64,6 @@ public class ListaSobreArreglo<T> implements Lista<T>{
       }
       if(pos == cant){
         arreglo[cant] = elem;
-        cant++;
         result = true;
       }  
       if(pos < cant){
@@ -73,9 +72,9 @@ public class ListaSobreArreglo<T> implements Lista<T>{
           arreglo[i+1] = arreglo[i];
         }
         arreglo[pos] = elem;
-        cant++;
         result =true;
       }
+      cant++;
       return result;
   }
   
@@ -97,6 +96,7 @@ public class ListaSobreArreglo<T> implements Lista<T>{
         arreglo[i] = arreglo[i+1];
       }
     }
+    cant--;
     return contenedor;
   }
   /**
@@ -155,7 +155,7 @@ public class ListaSobreArreglo<T> implements Lista<T>{
   public String toString(){
     String result = "";
     for(int i = 0;i < cant;i++){
-      result += "posicion "+i+" :"+arreglo[i].toString();
+      result +="posicion "+i+" : "+arreglo[i].toString()+"\n";
     }
     return result;
   }

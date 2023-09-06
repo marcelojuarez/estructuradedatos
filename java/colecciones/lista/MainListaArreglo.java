@@ -5,8 +5,11 @@ public class MainListaArreglo{
     ListaSobreArreglo array = new ListaSobreArreglo();
     ListaSobreArreglo array2 = new ListaSobreArreglo();
     array.agregar(1);
-    array2.agregar(1);
-    System.out.println("arreglo es "+ array);
-    System.out.println("son iguales arreglo1 y arreglo2 ? : "+ array.equals(array2));
+    array.agregar(2);
+    System.out.println(""+ array);
+    System.out.println("cantidad de elementos: "+array.elementos());
+    //array.insertar(17,1);
+    System.out.println("esta vacio este arreglo ?: "+ array.esVacia());
+    System.out.println("elemento en la posicion 0 :"+array.obtener(0));
   }
 }
