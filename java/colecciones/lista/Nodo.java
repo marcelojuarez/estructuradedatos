@@ -1,3 +1,5 @@
+package colecciones.lista;
+
 public class Nodo<T>{
 	
 	private T elem;
@@ -10,12 +12,12 @@ public class Nodo<T>{
 
 	//setter para cambiar el valor
 	public void setElem(T elem){
-		this.elem = elem
+		this.elem = elem;
 	}
 	
 	//getter para obtener la direccion
-	public int getSiguiente(){
-		return siguiente;
+	public Nodo<T> getSiguiente(){
+		return this.siguiente;
 	}
 	//setter para cambiar la direccion
 	public void setSiguiente(Nodo siguiente){
@@ -23,7 +25,7 @@ public class Nodo<T>{
 	}
 
 	//constructor 
-	public Nodo<T>(T elem){
+	public Nodo(T elem){
 		this.elem = elem;
 		this.siguiente = null;
 	}

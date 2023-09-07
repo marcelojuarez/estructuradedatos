@@ -130,7 +130,10 @@ public class ListaSobreArreglo<T> implements Lista<T>{
 	* Remueve todos los elementos en la lista.
 	*/
   public void vaciar(){
-    this.cant = 0;
+    for(int i = 0;i < cant;i++){
+        arreglo[i] = null;
+    }
+    cant = 0;
   }
   
   /**
