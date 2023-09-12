@@ -9,8 +9,9 @@ public class MainListaLista{
         lista.agregar(2);
         lista.agregar(3);
         lista.agregar(4);
-        System.out.println("esta el elemento 1?: "+lista.contiene(1));
-        //lista.subLista(1, 3); 
+        System.out.println(""+ lista);
+        System.out.println("elimino el segundo elemento?: "+lista.eliminar(1));
+        System.out.println(""+ lista); 
         //System.out.println(" "+lista.subLista(1, 3));
         //System.out.println("lista 1 y lista 2 son iguales ? "+ lista.equals(lista2));
     }

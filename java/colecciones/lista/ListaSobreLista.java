@@ -32,12 +32,12 @@ public class ListaSobreLista<T> implements Lista<T>{
 	
 	public boolean agregar(T elem){
 		if(cant == 0){
-			/*ListaSobreLista<T> aux = new ListaSobreLista<>(elem);
+			/* Otra solucion
+			ListaSobreLista<T> aux = new ListaSobreLista<>(elem);
 			this.cabeza = aux.cabeza;
 			this.cant = aux.cant;
 			aux.cabeza = null;
 			return true;
-			otra solucion
 			*/
 			Nodo<T> aux = new Nodo<>(elem);
 			cabeza = aux;
@@ -48,7 +48,7 @@ public class ListaSobreLista<T> implements Lista<T>{
 		Nodo<T> cursor = new Nodo<>(elem);
 		cursor = cabeza;
 		
-		while(cursor.getSiguiente() != null){
+		while(cursor.getSiguiente()!= null){
 			cursor = cursor.getSiguiente();
 		}
 			Nodo<T> aux = new Nodo<>(elem);
@@ -237,9 +237,9 @@ public class ListaSobreLista<T> implements Lista<T>{
 		String result = "[";
 		Nodo<T> cursor = new Nodo<>(cabeza.getElem());
 		cursor = cabeza;
-		while(cursor !=  null){
+		while(cursor!=  null){
 			result = result + String.valueOf(cursor.getElem()); 
-			if(!(cursor.getSiguiente()==null)){
+			if(!(cursor.getSiguiente() == null)){
 				result = result + ",";
 			}
 			cursor = cursor.getSiguiente();

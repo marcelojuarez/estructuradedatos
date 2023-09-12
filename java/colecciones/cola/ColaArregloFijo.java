@@ -1,4 +1,4 @@
-package colecciones.cola;
+package cola;
 
 import java.util.Collection;
 
@@ -48,57 +48,131 @@ public class ColaArregloFijo<T> implements Cola<T> {
 		}
 	}
 
+	/**
+	* Permite evaluar si la cola no tiene elementos.
+	* @return {@code true} sii la cola no tiene elementos
+	*/
 	@Override
 	public boolean esVacia() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		return(elementos == 0);	
 	}
 
+	/**
+	* @return cantidad de elementos en la cola.
+	*/
 	@Override
 	public int elementos() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		return elementos;
 	}
 
+	/**
+	* Encola un elemento en el comienzo de la cola.
+	* @param elem el elemento a encolar
+	* @return {@code true} sii el elemento pudo ser encolado
+	*/
 	@Override
 	public boolean encolar(T elem) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");		
+		if(elementos == CAPACIDAD_POR_DEFECTO){
+			return false;
+		}else{
+			arreglo[elementos] = elem;
+			elementos++;
+			return true;
+		}		
 	}
 
+	/**
+	* Desencola el primer elemento de la cola, y retorna el elemento desencolado, si ésta no es vacía.
+	* @return el primer elemento de la cola
+	* @throws IllegalStateException si la cola está vacía
+	* @see #esVacia()
+	*/
 	@Override
 	public T desencolar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		if(this.esVacia()){
+			throw new IllegalStateException("cola vacia");
+		}
+		T elem =(T)arreglo[0];
+		for(int i = 0; i< elementos - 1;i++){
+			arreglo[i] = arreglo[i+1];
+		}
+		elementos--;
+		return elem;
 	}
 
+	/**
+	* Retorna el primero de la cola, si ésta no es vacía.
+	* @return primer elemento de la cola
+	* @throws IllegalStateException si la cola está vacía
+	* @see #esVacia()
+	*/
 	@Override
 	public T primero() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if(this.esVacia()){
+			throw new IllegalStateException("cola vacia");
+		}	
+		return (T)this.arreglo[0];
 	}
 
+	
+	/**
+	* Remueve todos los elementos en la cola.
+	*/
 	@Override
 	public void vaciar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		elementos = 0;	
 	}
 
+	
+	/**
+	* Invariante de clase.
+	* @return {@code true} sii la cola satisface su invariante de clase
+	*/
 	@Override
 	public boolean repOK() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		return(elementos <= CAPACIDAD_POR_DEFECTO);	
 	}
 
 	@Override
 	public String toString() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if(elementos == 0){
+			throw new IndexOutOfBoundsException("indice fuera de rango");
+		}	
+		String result = "[";
+		for(int i = 0;i < elementos;i++){
+			result = result + String.valueOf(arreglo[0]);
+			if(!(i + 1 == elementos())){
+				result = result + ",";
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
-	}
+		if(other == null)
+			return false;
+		if(other == this)
+			return true;
+		if(!(other instanceof ColaArregloFijo<?>))	
+			return false;
+		ColaArregloFijo otroCola = (ColaArregloFijo) other;
+		if(!(this.elementos() == otroCola.elementos()))
+			return false;
+		for(int i = 0;i< elementos();i++){
+			if(!(arreglo[i] == otroCola.arreglo[i])){
+				return false;
+			}
+		}
+		return true;
+	}	
 
 	/**
 	* Permite obtener un elemento del arreglo en un indice determinado realizando el casteo necesario.
 	* @param index el indice del elemento a obtener
 	*/
 	@SuppressWarnings("unchecked")
-   	private T elemento(int index) {
+   	public T elemento(int index) {
         	return (T) arreglo[index];
     	}
 
