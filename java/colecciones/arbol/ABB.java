@@ -33,7 +33,8 @@ public class ABB<T> implements Diccionario<T> {
      * @param valor de la raiz del nuevo arbol si no es null.
      */
     public ABB(Comparator<? super T> comparador, T valor) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        this.comparador = comparador;
+        this.raiz = new NodoBinario<>(valor);
     }
 
 
@@ -42,18 +43,64 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void insertar(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        if(this.raiz.getValor() == null){
+            this.raiz.setValor(elem);
+        }else{
+            this.insRecursivo(raiz,elem);
+        }
     }
-
-
+    
+    private NodoBinario<T> insRecursivo(NodoBinario<T> newRaiz,T elem){
+        int cmp = comparador.compare(elem,newRaiz.getValor()); 
+        if(newRaiz.getValor() == null){
+            return new NodoBinario<>(elem);
+        }
+         
+        if(cmp == 0){
+            return newRaiz;
+        }
+        
+        if(cmp < 0){
+            newRaiz.setIzquierdo(insRecursivo(newRaiz.getIzquierdo(),elem));
+        }
+        
+        if(cmp > 0){
+            newRaiz.setDerecho(insRecursivo(newRaiz.getDerecho(),elem));
+        }
+        
+        return newRaiz;
+    }
+    
     /**
      * {@inheritDoc}
      */
-    public boolean pertenece(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+    
+     public boolean pertenece(T elem) {
+        if(this.raiz == null){
+            return false;
+        }
+        boolean pertenece = this.perteneceRecursivo(raiz,elem);
+        return pertenece;
     }
 
+    private boolean perteneceRecursivo (NodoBinario<T> newRaiz,T elem){
+        int cmp = comparador.compare(newRaiz.getValor(),elem);
+        if(newRaiz.getValor() == null){
+            return false;
+        }
 
+        if (cmp == 0){
+            return true;
+        }
+        
+        if(cmp > 0){
+            return this.perteneceRecursivo(newRaiz.getIzquierdo(),elem);
+        }else{
+            return this.perteneceRecursivo(newRaiz.getDerecho(), elem);
+        }
+
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -62,6 +109,7 @@ public class ABB<T> implements Diccionario<T> {
         throw new UnsupportedOperationException("TODO: implementar");
     }
 
+    private Nodo
 
     /**
      * {@inheritDoc}
@@ -76,7 +124,10 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T raiz() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        if(raiz.getValor() == null){
+            throw new IllegalStateException("empty tree");
+        }
+        return raiz.getValor();
     }
 
     /**
@@ -116,7 +167,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public boolean esVacio() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return raiz == null;
     }
 
     /**
@@ -163,7 +214,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("TODO: implementar");
+         throw new UnsupportedOperationException("TODO: implementar");
     }
 
     /**
