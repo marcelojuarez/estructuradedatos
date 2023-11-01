@@ -43,73 +43,98 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void insertar(T elem) {
-        if(this.raiz.getValor() == null){
-            this.raiz.setValor(elem);
-        }else{
-            this.insRecursivo(raiz,elem);
+        if (this.pertenece(elem)) {
+            throw new IllegalArgumentException("El elemento ya se encuentra en el árbol");
+        }
+        if (raiz.getValor() == null) {
+            raiz.setValor(elem);
+        } else {
+            this.insRec(elem, raiz);
         }
     }
-    
-    private NodoBinario<T> insRecursivo(NodoBinario<T> newRaiz,T elem){
-        int cmp = comparador.compare(elem,newRaiz.getValor()); 
-        if(newRaiz.getValor() == null){
+
+    private NodoBinario<T> insRec(T elem, NodoBinario<T> newRaiz) {
+        if (newRaiz == null) {
             return new NodoBinario<>(elem);
         }
-         
-        if(cmp == 0){
+        int cmp = comparador.compare(elem, newRaiz.getValor());
+        if (cmp == 0) {
             return newRaiz;
         }
-        
-        if(cmp < 0){
-            newRaiz.setIzquierdo(insRecursivo(newRaiz.getIzquierdo(),elem));
+        if (cmp < 0) {
+            newRaiz.setIzquierdo(insRec(elem, newRaiz.getIzquierdo()));
+        } else {
+            newRaiz.setDerecho(insRec(elem, newRaiz.getDerecho()));
         }
-        
-        if(cmp > 0){
-            newRaiz.setDerecho(insRecursivo(newRaiz.getDerecho(),elem));
-        }
-        
         return newRaiz;
     }
-    
+
+
     /**
      * {@inheritDoc}
      */
-    
-     public boolean pertenece(T elem) {
-        if(this.raiz == null){
+    public boolean pertenece(T elem) {
+        if (this.raiz == null) {
             return false;
         }
-        boolean pertenece = this.perteneceRecursivo(raiz,elem);
-        return pertenece;
+        return this.perteneceRecursivo(raiz,elem);
     }
 
     private boolean perteneceRecursivo (NodoBinario<T> newRaiz,T elem){
         int cmp = comparador.compare(newRaiz.getValor(),elem);
-        if(newRaiz.getValor() == null){
+        if (newRaiz.getValor() == null) {
             return false;
         }
-
-        if (cmp == 0){
+        if (cmp == 0) {
             return true;
         }
-        
-        if(cmp > 0){
+        if (cmp > 0) {
             return this.perteneceRecursivo(newRaiz.getIzquierdo(),elem);
-        }else{
+        } else {
             return this.perteneceRecursivo(newRaiz.getDerecho(), elem);
         }
-
     }
-    
+
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void borrar(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        this.borrarRec(raiz,elem);
     }
 
-    private Nodo
+    private boolean borrarRec(NodoBinario<T> nodo, T elem){
+        int cmp = comparador.compare(nodo.getValor(),elem);
+        if (cmp == 0) {
+            if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+                nodo = null;
+                return true;
+            }
+            if (nodo.getIzquierdo() == null && nodo.getDerecho() != null) {
+                nodo = nodo.getDerecho();
+                
+            }
+
+            if (nodo.getIzquierdo() != null && nodo.getDerecho() == null) {
+                nodo = nodo.getIzquierdo();
+                return true;
+            }
+
+            if (nodo.getIzquierdo() != null && nodo.getDerecho() != null) {
+                nodo = nodo.getDerecho();
+                return true;
+            }
+        }
+        if (cmp > 0) {
+            return this.borrarRec(nodo.getIzquierdo(), elem);
+        }
+        if (cmp < 0) {
+            return this.borrarRec(nodo.getDerecho(), elem);
+        }
+        return true;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -124,9 +149,6 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T raiz() {
-        if(raiz.getValor() == null){
-            throw new IllegalStateException("empty tree");
-        }
         return raiz.getValor();
     }
 
@@ -151,30 +173,49 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public int elementos() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return this.elementosRecursivo(this.raiz) ;
     }
 
+    private int elementosRecursivo (NodoBinario<T> nuevaRaiz){
+        if(nuevaRaiz == null){
+            return 0;
+        }
+        return 1 + elementosRecursivo(nuevaRaiz.getIzquierdo()) + elementosRecursivo(nuevaRaiz.getDerecho());
+    }
     /**
      * {@inheritDoc}
      */
     @Override
     public int altura() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return this.altRec(this.raiz);
     }
 
+    private int altRec(NodoBinario<T> nuevaRaiz){
+        if(nuevaRaiz == null){
+            return 0;
+        }
+        return 1 + Math.max(altRec(nuevaRaiz.getIzquierdo()),altRec(nuevaRaiz.getDerecho()));
+    }
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean esVacio() {
-        return raiz == null;
+        return this.raiz == null;
     }
 
     /**
      * {@inheritDoc}
      */
     public T mayorValor(){
-        throw new UnsupportedOperationException("TODO: implementar");
+        if (this.esVacio() || this.raiz == null) {
+            throw new IllegalStateException("el arbol es null o vacío");
+        }
+        ABB<T> tree = this;
+        while (tree.raiz.getDerecho() != null) {
+            tree.raiz.setDerecho(tree.raiz.getDerecho());
+        }
+        return tree.raiz.getValor();
     }
 
     /**
@@ -182,7 +223,14 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T menorValor() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        if (this.raiz == null || this.raiz.getValor() == null) {
+            throw new IllegalStateException("el arbol es null o vacío");
+        }
+        ABB<T> tree = this;
+        while (tree.raiz.getIzquierdo() != null) {
+            tree.raiz.setIzquierdo(tree.raiz.getIzquierdo());
+        }
+        return tree.raiz.getValor();
     }
 
     /**
@@ -214,9 +262,22 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public String toString() {
-         throw new UnsupportedOperationException("TODO: implementar");
+        String result = "";
+        if (this.esVacio()) {
+            result = "{}";
+        }
+        result = String.valueOf(inOrder(raiz));
+        return result;
     }
 
+    private String inOrder(NodoBinario<T> nuevaRaiz){
+        if(nuevaRaiz != null){
+            this.inOrder(nuevaRaiz.getIzquierdo());
+            System.out.println(""+raiz.getValor());
+            this.inOrder(nuevaRaiz.getDerecho());
+        }
+         return "";
+    }
     /**
      * {@inheritDoc}
      */
